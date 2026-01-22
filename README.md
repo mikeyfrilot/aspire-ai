@@ -339,6 +339,48 @@ trainer.train(epochs=100)
 | **Grace Coach** | Smoothness, naturalness, jerk minimization |
 | **Physics Oracle** | Ground truth from simulator |
 
+### 💻 Code Assistants
+
+ASPIRE extends to code generation! Teach code models to self-review before outputting.
+
+```
+integrations/code/
+├── code_teacher.py        # Correctness, style, security teachers
+├── code_critic.py         # Learns to predict code quality
+├── analysis.py            # Static analysis integration (ruff, mypy, bandit)
+├── data.py                # GitHub repo collector, training pairs
+├── trainer.py             # Full training pipeline
+└── examples/
+    ├── basic_critique.py  # Multi-teacher code review
+    └── train_critic.py    # Train your own code critic
+```
+
+**Features:**
+- **Code Teachers**: Correctness Checker, Style Guide, Security Auditor, Architecture Reviewer
+- **Static Analysis**: Integrates with ruff, mypy, bandit
+- **Code Critic**: CodeBERT-based model learns to predict quality scores
+- **GitHub Collection**: Auto-collect training data from quality repos
+
+**Quick Start:**
+```python
+from aspire.integrations.code import CodeTeacher, CodeSample
+
+teacher = CodeTeacher(
+    personas=["correctness_checker", "style_guide", "security_auditor"],
+    strategy="vote",
+)
+
+critique = teacher.critique(CodeSample(code="def f(): eval(input())", language="python"))
+print(f"Score: {critique.overall_score}/10")  # Low score - security issue!
+```
+
+| Code Teacher | Focus |
+|--------------|-------|
+| **Correctness Checker** | Bugs, types, logic errors |
+| **Style Guide** | PEP8, naming, readability |
+| **Security Auditor** | Injection, secrets, vulnerabilities |
+| **Performance Analyst** | Complexity, efficiency |
+
 ---
 
 ## The Philosophy
