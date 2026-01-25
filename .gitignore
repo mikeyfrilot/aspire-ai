@@ -54,3 +54,7 @@ Thumbs.db
 
 # Claude local settings
 .claude/settings.local.json
+
+# Deliverables archive
+aspire-ai-master-deliverables/
+aspire-ai-master-deliverables.zip
